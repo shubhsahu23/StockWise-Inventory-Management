@@ -12,10 +12,26 @@ import { errorHandler, notFoundHandler } from './middleware/errorMiddleware.js'
 
 const app = express()
 
+const allowedOrigins = (env.clientOrigin || 'http://localhost:5173')
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean)
+
+const isAllowedOrigin = (origin) => {
+  if (!origin) return true
+  if (allowedOrigins.includes(origin)) return true
+  return /^https:\/\/stock-wise-inventory-management-[a-z0-9-]+\.vercel\.app$/i.test(origin)
+}
+
 app.use(helmet())
 app.use(
   cors({
-    origin: env.clientOrigin,
+    origin: (origin, callback) => {
+      if (isAllowedOrigin(origin)) {
+        return callback(null, true)
+      }
+      return callback(new Error(`CORS blocked for origin: ${origin}`))
+    },
     credentials: true
   })
 )

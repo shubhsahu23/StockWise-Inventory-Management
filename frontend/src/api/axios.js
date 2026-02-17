@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'https://stock-wise-inventory-management-backend-rifk4er5q.vercel.app/api'
+  baseURL: import.meta.env.VITE_API_URL || 'https://stock-wise-inventory-management-backend-qij808kc7.vercel.app/api'
 })
 
 api.interceptors.request.use((config) => {
