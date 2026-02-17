@@ -20,7 +20,10 @@ const allowedOrigins = (env.clientOrigin || 'http://localhost:5173')
 const isAllowedOrigin = (origin) => {
   if (!origin) return true
   if (allowedOrigins.includes(origin)) return true
-  return /^https:\/\/stock-wise-inventory-management-[a-z0-9-]+\.vercel\.app$/i.test(origin)
+  if (/^https:\/\/[a-z0-9-]+\.vercel\.app$/i.test(origin)) {
+    return origin.includes('stock-wise-inventory-manage')
+  }
+  return false
 }
 
 app.use(helmet())
